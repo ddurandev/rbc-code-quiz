@@ -23,3 +23,9 @@
 
 // Save score
 // Local storage
+
+var startBtn = document.getElementById('startBtn');
+
+startBtn.addEventListener('click', function() {
+    console.log('start quiz');
+})
