@@ -25,7 +25,35 @@
 // Local storage
 
 var startBtn = document.getElementById('startBtn');
+var questionBox = document.getElementById('questionBox');
+var timerEl = document.getElementById('timer');
+var remainTime = 60;
 
-startBtn.addEventListener('click', function() {
-    console.log('start quiz');
-})
+// Timer function
+function minTimer() {
+    var timeInterval = setInterval(function () {
+        if (remainTime > 1) {
+            timerEl.textContent = remainTime + ' seconds remaining';
+            remainTime--;
+        } else if (remainTime === 1) {
+            timerEl.textContent = remainTime + ' second remaining';
+            remainTime--;
+        } else {
+            timerEl.textContent = '';
+            clearInterval(timeInterval);
+            quizDone();
+        }
+    }, 1000);
+};
+
+function displayQuestions() {
+
+}
+
+function quizDone() {
+
+};
+
+startBtn.addEventListener('click', function () {
+    minTimer();
+});
