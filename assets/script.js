@@ -81,11 +81,19 @@ function minTimer() {
 
 function displayQuestions() {
     questionEl.textContent = questions[questionIndex].question;
+    var choicesContainer = document.getElementById('choices');
     choicesSec.innerHTML = '';
     for (let index = 0; index < questions[questionIndex].choices.length; index++) {
+        var choice = questions[questionIndex].choices[index];
+
         var button = document.createElement('button');
-        button.textContent = questions[questionIndex].choices[index];
-        choicesSec.append(button);
+        button.textContent =choice;
+        button.className = 'Choice-button';
+        choicesContainer.appendChild(button);
+
+        if(index < questions[questionIndex].choices.length - 1) {
+            choicesContainer.appendChild(document.createElement('br'));
+        }
     }
 };
 
@@ -97,6 +105,8 @@ function quizDone() {
     var userScore = score * (100 / maxScore);
 
     questionEl.textContent = 'Quiz Complete! Your Score: ' + userScore + '/100';
+    var choicesContainer = document.getElementById('choices');
+    choicesContainer.innerHTML = '';
 
     localStorage.setItem('userScore', userScore);
 };
