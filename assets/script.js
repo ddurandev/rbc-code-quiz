@@ -87,11 +87,11 @@ function displayQuestions() {
         var choice = questions[questionIndex].choices[index];
 
         var button = document.createElement('button');
-        button.textContent =choice;
+        button.textContent = choice;
         button.className = 'Choice-button';
         choicesContainer.appendChild(button);
 
-        if(index < questions[questionIndex].choices.length - 1) {
+        if (index < questions[questionIndex].choices.length - 1) {
             choicesContainer.appendChild(document.createElement('br'));
         }
     }
