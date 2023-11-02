@@ -30,6 +30,9 @@ var timerEl = document.getElementById('timer');
 var questionEl = document.getElementById('question');
 var remainTime = 60;
 var choicesSec = document.getElementById('choices');
+var score = 0;
+var timeInterval;
+var questionIndex = 0;
 
 var questions = [
     {
@@ -38,37 +41,35 @@ var questions = [
         answer: 'Hyper Text Markup Language'
     },
     {
-        questions: 'What does CSS stand for?',
+        question: 'What does CSS stand for?',
         choices: ['Cascading Stem Sheets', 'Casting Style Sheets', 'Cascading Style Sheeps', 'Cascading Style Sheets'],
         answer: 'Cascading Style Sheets',
     },
     {
-        questions: 'Which tag do you link your CSS file?',
+        question: 'Which tag do you link your CSS file?',
         choices: ['header tag', 'footer tag', 'link tag', 'body tag'],
         answer: 'link tag',
     },
     {
-        questions: 'Which tag do you link your JavaScript file?',
+        question: 'Which tag do you link your JavaScript file?',
         choices: ['title tag', 'script tag', 'body tag', 'head tag'],
         answer: 'script tag',
     },
     {
-        questions: 'In what secion do you keep the link tag?',
+        question: 'In what section do you keep the link tag?',
         choices: ['head', 'body', 'footer', 'header'],
         answer: 'head',
     }
 ];
 
-var questionIndex = 0;
-
 // Timer function
 function minTimer() {
-    var timeInterval = setInterval(function () {
+    timeInterval = setInterval(function () {
         if (remainTime > 1) {
-            timerEl.textContent = remainTime + ' seconds remaining';
+            timerEl.textContent = 'Timer: ' + remainTime + ' seconds';
             remainTime--;
         } else if (remainTime === 1) {
-            timerEl.textContent = remainTime + ' second remaining';
+            timerEl.textContent = 'Timer: ' + remainTime + ' second';
             remainTime--;
         } else {
             timerEl.textContent = '';
@@ -89,19 +90,36 @@ function displayQuestions() {
 };
 
 function quizDone() {
+    clearInterval(timeInterval);
+    timerEl.textContent = '';
 
+    var maxScore = questions.length * 5;
+    var userScore = score * (100 / maxScore);
+
+    questionEl.textContent = 'Quiz Complete! Your Score: ' + userScore + '/100';
+
+    localStorage.setItem('userScore', userScore);
 };
 
 startBtn.addEventListener('click', function () {
+    startBtn.style.display = 'none';
     minTimer();
     displayQuestions();
 });
 
-choicesSec.addEventListener('click', function(event) {
+choicesSec.addEventListener('click', function (event) {
     //check answer function
-    if(event.target.textContent != questions[questionIndex].answer) {
+    if (event.target.textContent != questions[questionIndex].answer) {
         remainTime -= 5;
+    } else {
+        score += 5;
     }
+
     questionIndex++;
-    displayQuestions();
-})
+
+    if (questionIndex < questions.length) {
+        displayQuestions();
+    } else {
+        quizDone();
+    }
+});
